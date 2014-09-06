@@ -12,16 +12,15 @@ function initMap(callback) {
   // function to initialize the map
   function gogo (map, loc) {
     if (!loc) { loc = [33.776508, -84.397352]; }
-    map = L.map('map').setView(loc, 13);
+    map = L.map('map').setView(loc, 18);
 
     var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">MapBox</a>';
     var tiles = 'http://{s}.tiles.mapbox.com/v3/alternativeheroes.je8e089a/{z}/{x}/{y}.png';
 
     L.tileLayer(tiles, {
-      maxZoom: 18,
+      maxZoom: 23,
       attribution: attribution
     }).addTo(map);
-    console.log(map);
     callback(map);
   }
 
@@ -44,11 +43,11 @@ function initPoints(map) {
     console.log('The read failed: ' + errorObject.code);
   });
 
+
   function firstUpdate(snapshot) {
     console.log(snapshot.val());
     var data = snapshot.val();
     for (var users in data) {
-      console.log(data[users]);
       var user = data[users];
       for (var time in user) {
         addPoint(user[time])
@@ -57,7 +56,6 @@ function initPoints(map) {
   }
 
   function addPoint (point) {
-    console.log(map);
     var marker = L.marker([point.latitude, point.longitude]);
     marker.addTo(map);
   }
