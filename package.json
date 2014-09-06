@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "site that shows where phones have dropped",
   "main": "app.js",
+  "repository": "https://github.com/AlternativeHeroes/dropped-site/",
   "scripts": {
     "start": "beefy app.js:bundle.js --live",
     "bundle": "browserify app.js -o bundle.js"
@@ -10,6 +11,7 @@
   "author": "Andrew Dai",
   "license": "MIT",
   "dependencies": {
+    "firebase": "^1.0.21",
     "leaflet": "^0.7.3"
   },
   "devDependencies": {

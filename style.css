@@ -1,3 +1,10 @@
+.container {
+}
+
+.jumbotron {
+  text-align: center;
+}
+
 #map {
-  height: 300px;
+  height: 400px;
 }
