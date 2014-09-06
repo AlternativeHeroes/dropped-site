@@ -1,60 +1,31 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+// require leaflet.js
+var L = require('leaflet');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+// path to leaflet images folder
+L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
-var app = express();
+// function to initialize the map
+function initMap(loc) {
+  if (!loc) { loc = [33.776508, -84.397352]; }
+  var map = L.map('map');
+  map.setView(loc, 11);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+  var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">MapBox</a>';
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  var tiles = 'http://{s}.tiles.mapbox.com/v3/alternativeheroes.je8e089a/{z}/{x}/{y}.png';
 
-app.use('/', routes);
-app.use('/users', users);
+  L.tileLayer(tiles, {
+    maxZoom: 18,
+    attribution: attribution
+  }).addTo(map);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
 }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
 
-
-module.exports = app;
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(pos){
+    initMap([pos.coords.latitude, pos.coords.longitude]);
+  });
+} else {
+  initMap();
+}
