@@ -36,27 +36,37 @@ function initMap(callback) {
   return map;
 }
 
+var newestIndeces = {};
+
 function initPoints(map) {
   var ref = new Firebase('https://shining-fire-2142.firebaseio.com/');
 
-  ref.on('value', firstUpdate, function (errorObject) {
+  ref.on('value', update, function (errorObject) {
     console.log('The read failed: ' + errorObject.code);
   });
 
-
-  function firstUpdate(snapshot) {
-    console.log(snapshot.val());
+  function update(snapshot) {
     var data = snapshot.val();
-    for (var users in data) {
-      var user = data[users];
-      for (var time in user) {
-        addPoint(user[time])
+    for (var user in data) {
+      if (!newestIndeces[user]) {
+        newestIndeces[user] = 0;
       }
+      var i = 0;
+      for(var drop in data[user]){
+        if (i >= newestIndeces[user]) {
+          addPoint(data[user][drop], "#"+user.substring(0,6));
+        }
+        i++;
+      }
+      newestIndeces[user] = i;
     }
   }
 
-  function addPoint (point) {
-    var marker = L.marker([point.latitude, point.longitude]);
+  function addPoint (point, color) {
+    console.log("New point! " + color);
+    color = color || "blue";
+    var marker = L.circleMarker([point.latitude, point.longitude],
+      {'fillOpacity': .5, 'fillColor': color, 'color': 'darkgray', 'radius': 20});
     marker.addTo(map);
   }
 }
