@@ -1,10 +1,12 @@
 // require leaflet.js
-var L = require('leaflet');
+// var L = require('leaflet');
+jQuery.getScript('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js');
 // require firebase
-var Firebase = require('firebase');
+// var Firebase = require('firebase');
+jQuery.getScript('https://cdn.firebase.com/js/client/1.0.21/firebase.js');
 
 // path to leaflet images folder
-L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
+// L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
 var map = initMap(initPoints);
 
