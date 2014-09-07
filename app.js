@@ -1,10 +1,3 @@
-// require leaflet.js
-// var L = require('leaflet');
-jQuery.getScript('http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js');
-// require firebase
-// var Firebase = require('firebase');
-jQuery.getScript('https://cdn.firebase.com/js/client/1.0.21/firebase.js');
-
 // path to leaflet images folder
 // L.Icon.Default.imagePath = 'node_modules/leaflet/dist/images/';
 
@@ -31,6 +24,7 @@ function initMap(callback) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(pos){
       map = gogo(map, [pos.coords.latitude, pos.coords.longitude]);
+      console.log(map);
     });
   } else {
     map = gogo(map);
@@ -38,7 +32,6 @@ function initMap(callback) {
   return map;
 }
 
-var newestIndeces = {};
 
 function initPoints(map) {
   var ref = new Firebase('https://shining-fire-2142.firebaseio.com/');
